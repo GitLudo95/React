@@ -218,7 +218,7 @@ const Numbers = (props) => {
       {props.searchResults.map((person) => {
         return (
           <li 
-            key={person.id}>{person.name} {person.number} <IconButton variant="contained" type="button" color="primary" text="delete" icon={<DeleteIcon/>} handleClick={() => handleDeleteClick(person.name, person.id)} />
+            key={person.id}>{person.name} {person.number} <IconButton variant="contained" type="button" color="secondary" text="delete" icon={<DeleteIcon/>} handleClick={() => handleDeleteClick(person.name, person.id)} />
           </li>)
       })}
     </div>
