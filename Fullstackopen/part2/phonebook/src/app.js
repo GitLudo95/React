@@ -45,16 +45,6 @@ const Form = (props) => {
     setNewNumber(event.target.value);
   }
 
-  function create_UUID(){
-    let dt = new Date().getTime();
-    let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        let r = (dt + Math.random()*16)%16 | 0;
-        dt = Math.floor(dt/16);
-        return (c==='x' ? r :(r&0x3|0x8)).toString(16);
-    });
-    return uuid;
-  }
-
   const checkIfNameExists = () => {
     return props.persons.filter((person) => {
       return person.name === newName
@@ -116,7 +106,7 @@ const Form = (props) => {
           })
         } else if(existingPerson.length === 0) {
           http
-          .create({ name : newName, number : newNumber, id : create_UUID() })
+          .create({ name : newName, number : newNumber})
           .then(returnedPerson => {
             console.log('promise fulfilled', returnedPerson);
             props.setStatus({variant : "filled", status : "success", text : `Succesfully added ${newName}`});
@@ -177,19 +167,6 @@ const Search = (props) => {
 
 const Numbers = (props) => {
   
-  const removeFromArray = (oldArr, id) => {
-    let newArr = [...oldArr];
-    let i = 0;
-    let length = newArr.length;
-    for(i; i < length; i++) {
-      if(newArr[i].id === id) {
-        newArr.splice(i);
-        break;
-      }
-    }
-    return newArr;
-  }
-  
   const handleDeleteClick = (name, id) => {
     if(window.confirm(`Do you really want to delete ${name}`)) {
       http
@@ -200,7 +177,7 @@ const Numbers = (props) => {
         setTimeout(() => {         
           props.setStatus({});  
         }, 5000)
-        let newPersonList = removeFromArray(props.persons, id);
+        let newPersonList = props.persons.filter(person => person.id !== id);
         props.setPersons(newPersonList);
         props.setSearchResults(props.getSearchResults(newPersonList, props.searchTerm));
       })
