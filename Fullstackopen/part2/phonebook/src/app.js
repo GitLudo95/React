@@ -99,10 +99,11 @@ const Form = (props) => {
             setNewNumber('');
           })
           .catch(error => {
-            props.setStatus({variant : "filled", status : "error", text : `Oops something went wrong`});
+            console.log(error.response.data);
+            props.setStatus({variant : "filled", status : "error", text : `Oops something went wrong: ${error.response.data.error}`});
             setTimeout(() => {         
               props.setStatus({});  
-            }, 5000)
+            }, 10000)
           })
         } else if(existingPerson.length === 0) {
           http
@@ -120,10 +121,11 @@ const Form = (props) => {
             setNewNumber('');
           })
           .catch(error => {
-            props.setStatus({variant : "filled", status : "error", text : `Oops something went wrong`});
+            console.log(error.response.data);
+            props.setStatus({variant : "filled", status : "error", text : `Oops something went wrong: ${error.response.data.error}`});
             setTimeout(() => {         
               props.setStatus({});  
-            }, 5000)
+            }, 10000)
           })
       }
     }
@@ -182,10 +184,11 @@ const Numbers = (props) => {
         props.setSearchResults(props.getSearchResults(newPersonList, props.searchTerm));
       })
       .catch(error => {
-        props.setStatus({variant : "filled", status : "error", text : `Oops something went wrong`});
+        console.log(error.response.data);
+        props.setStatus({variant : "filled", status : "error", text : `Oops something went wrong: ${error.response.data.error}`});
         setTimeout(() => {         
           props.setStatus({});  
-        }, 5000)
+        }, 10000)
       })
     }
   }
@@ -221,10 +224,11 @@ const App = () => {
         setSearchResults(initialPersons);
       })
       .catch(error => {
-        setStatus({variant : "filled", status : "error", text : `Oops something went wrong`});
+        console.log(error.response.data);
+        setStatus({variant : "filled", status : "error", text : `Oops something went wrong: ${error.response.data.error}`});
         setTimeout(() => {         
           setStatus({});  
-        }, 5000)
+        }, 10000)
       })
   }, [])
 

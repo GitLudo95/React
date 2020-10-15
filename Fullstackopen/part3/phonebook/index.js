@@ -6,15 +6,24 @@ const cors = require('cors');
 const Person = require('./models/person');
 const sanitizeHtml = require('sanitize-html');
 
+const logger = (request, response, next) => {
+    console.log('Method:', request.method);
+    console.log('Path:  ', request.path);
+    console.log('Body:  ', request.body);
+    console.log('---')
+    next();
+}
+
 app.use(express.json());
 morgan.token('body', (req, res) => JSON.stringify(req.body));
 app.use(morgan(':method :url :status :response-time ms - :res[content-length] :body - :req[content-length]'));
 app.use(cors());
 app.use(express.static('build'));
+app.use(logger);
 
 let persons = [];
 
-app.get('/api/info', (request, response) => {
+app.get('/api/info', (request, response, next) => {
     const currentDate = new Date();
     Person.find({})
         .then(persons => {
@@ -30,7 +39,7 @@ app.get('/api/info', (request, response) => {
         .catch(error => next(error));
 })
 
-app.get('/api/persons', (request, response) => {
+app.get('/api/persons', (request, response, next) => {
     Person.find({})
         .then(persons => {
             response.json(persons.map(person => person.toJSON()));
@@ -56,7 +65,7 @@ const checkIfNameExists = (newName) => {
     });
 }
   
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
     const body = request.body;
    
     if (!body.name || !body.number) {
@@ -121,6 +130,8 @@ const errorHandler = (error, request, response, next) => {
 
     if(error.name === 'CastError' && error.kind === 'ObjectId') {
         return response.status(400).send({error : 'malformatted id'});
+    } else if (error.name === 'ValidationError') {    
+        return response.status(400).json({ error: error.message });
     }
 
     next(error);
