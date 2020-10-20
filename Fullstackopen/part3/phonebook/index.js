@@ -10,9 +10,9 @@ const logger = (request, response, next) => {
     console.log('Method:', request.method);
     console.log('Path:  ', request.path);
     console.log('Body:  ', request.body);
-    console.log('---')
+    console.log('---');
     next();
-}
+};
 
 app.use(express.json());
 morgan.token('body', (req, res) => JSON.stringify(req.body));
@@ -37,7 +37,7 @@ app.get('/api/info', (request, response, next) => {
             response.send(content);
         })
         .catch(error => next(error));
-})
+});
 
 app.get('/api/persons', (request, response, next) => {
     Person.find({})
@@ -45,7 +45,7 @@ app.get('/api/persons', (request, response, next) => {
             response.json(persons.map(person => person.toJSON()));
         })
         .catch(error => next(error));
-})
+});
 
 app.get('/api/persons/:id', (request, response, next) => {
     Person.findById(request.params.id)
@@ -57,20 +57,20 @@ app.get('/api/persons/:id', (request, response, next) => {
             }
         })
         .catch(error => next(error));
-})
+});
 
 const checkIfNameExists = (newName) => {
     return persons.filter((person) => {
-      return person.name === newName
+      return person.name === newName;
     });
-}
-  
+};
+
 app.post('/api/persons', (request, response, next) => {
     const body = request.body;
-   
+
     if (!body.name || !body.number) {
-      return response.status(400).json({ 
-        error: 'content missing' 
+      return response.status(400).json({
+        error: 'content missing'
       });
     } else if(checkIfNameExists(body.name).length > 0) {
         return response.status(400).json({ 
@@ -111,7 +111,7 @@ app.put('/api/persons/:id', (request, response, next) => {
         .catch(error => next(error));
 })
 
-app.delete("/api/persons/:id", (request, response) => {
+app.delete('/api/persons/:id', (request, response) => {
     Person.findByIdAndRemove(request.params.id)
       .then(result => {
         response.status(204).end();
