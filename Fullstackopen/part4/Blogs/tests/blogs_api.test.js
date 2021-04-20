@@ -225,6 +225,50 @@ test('a blog can be deleted by HTTP DELETE', async () => {
     expect(deletedBlog).toHaveLength(0);
 })
 
+test('posting a new blog fails if token is not provided', async () => {
+    const userId = userForToken.id.toString();
+    const newBlog = {
+        "title": "Test3",
+        "author": "Ludo",
+        "url": "blablabla.nl",
+        "likes": 20,
+        "userId": userId
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(401)
+        .expect('Content-Type', /application\/json/)
+})
+
+test('deleting a blog fails if token is not provided', async () => {
+    const newBlog = {
+        "title": "Test3",
+        "author": "Ludo",
+        "url": "blablabla.nl",
+        "likes": 20,
+        "userId": "607d693f0a9df64922365abd"
+    }
+
+    await api
+        .post('/api/blogs')
+        .set({'Authorization': `bearer ${token}`})
+        .send(newBlog)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
+    let response = await api.get('/api/blogs');
+
+    const blogToDelete = response.body.filter((blog) => blog.title === 'Test3')[0];
+
+    expect(response.body).toHaveLength(initialBlogs.length + 1);
+
+    await api
+        .delete(`/api/blogs/${blogToDelete.id}`)
+        .expect(401)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
