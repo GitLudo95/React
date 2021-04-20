@@ -1,9 +1,11 @@
 POST http://localhost:3003/api/blogs
 Content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Ikx1ZG8iLCJpZCI6IjYwN2Q2OTNmMGE5ZGY2NDkyMjM2NWFiZCIsImlhdCI6MTYxODkzNjA0MiwiZXhwIjoxNjE4OTM5NjQyfQ.pl6tHqHGAvdMsNcx_XQ_adU6zAACzzBajXWWa7U1mhM
 
 {
-    "title": "Test3",
+    "title": "Test11",
     "author": "Ludo",
-    "url": "fhqerwer.nl",
-    "likes": 15
+    "url": "blablabla8.nl",
+    "likes": 143,
+    "userId": "607d693f0a9df64922365abd"
 }
