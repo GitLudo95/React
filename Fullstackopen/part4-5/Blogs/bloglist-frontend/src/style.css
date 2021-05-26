@@ -1,0 +1,19 @@
+body {
+    margin: 2%;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.MuiInput-root {
+    margin-left: 5px;
+    margin-top: 5px;
+}
+
+.MuiButton-root {
+    margin-top: 5px !important;
+    margin-bottom: 5px !important;
+    margin-right: 5px !important;
+}
