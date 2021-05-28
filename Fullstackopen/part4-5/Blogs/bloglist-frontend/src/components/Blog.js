@@ -74,6 +74,7 @@ const Blog = ({
         const newBlogList = blogs.filter(currentBlog => currentBlog.id !== blog.id);
         setBlogs(newBlogList);
         setStatus({ variant : "filled", status : "success", text : `Succesfully removed blog ${blog.title}` });
+        window.localStorage.removeItem(blog.title + "Liked");
         setTimeout(() => {
           setStatus({});
         }, 10000)

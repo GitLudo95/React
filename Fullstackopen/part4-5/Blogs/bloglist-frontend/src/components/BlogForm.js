@@ -54,7 +54,11 @@ const BlogForm = ({
           }
         } catch(e) {
           console.error(e);
-          setStatus({variant : "filled", status : "error", text : "An unexpected exception occured in the create blog service"});
+          let errorText = "An unexpected exception occured in the create blog service";
+          if(e.response && e.response.status === "401") {
+            errorText = "User session expired, login again";
+          }
+          setStatus({variant : "filled", status : "error", text : errorText});
           setTimeout(() => {         
             setStatus({});  
           }, 10000)
@@ -66,6 +70,7 @@ const BlogForm = ({
       <div>
         Title:
           <Input
+          id="BlogFormTitle"
           type="text"
           value={newTitle}
           name="Title"
@@ -75,6 +80,7 @@ const BlogForm = ({
       <div>
         Author:
             <Input
+            id="BlogFormAuthor"
             type="text"
             value={newAuthor}
             name="Author"
@@ -84,13 +90,14 @@ const BlogForm = ({
       <div>
         Url:
             <Input
+            id="BlogFormUrl"
             type="text"
             value={newUrl}
             name="Url"
             onChange={({ target }) => setNewUrl(target.value)}
           />
         </div>
-        <Button variant="contained" color="primary" type="submit">create</Button>
+        <Button id="BlogFormSubmit" variant="contained" color="primary" type="submit">create</Button>
     </form>
   )
 }

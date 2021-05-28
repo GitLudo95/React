@@ -64,14 +64,3 @@ test('url and number of likes are shown when view is clicked', () => {
         'likes 10'
       );
 })
-
-test('like button is clicked twice', () => {
-    const viewButton = component.getByText('view');
-    fireEvent.click(viewButton);
-
-    const likeButton = component.getByText('like');
-    fireEvent.click(likeButton);
-    fireEvent.click(likeButton);
-  
-    expect(mockHandler.mock.calls).toHaveLength(2);
-})
